@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Invitation 🎬</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradient 12s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 10px;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 20px);
+            padding: 15px;
+            text-align: center;
+            animation: slideIn 0.8s ease-out;
+            width: 100%;
+        }
+
+        .active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 30px 25px;
+            border-radius: 25px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 1.9em;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            background: linear-gradient(45deg, #667eea, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            color: #34495e;
+            font-size: 1.15em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .special-message {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 18px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            font-weight: 500;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .gif-container {
+            margin: 25px 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+            transform: perspective(1000px) rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .gif-container:hover {
+            transform: perspective(1000px) rotateX(0deg);
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 16px 25px;
+            font-size: 1.15em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .yes-btn {
+            background: linear-gradient(45deg, #00b09b, #96c93d);
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 176, 155, 0.4);
+        }
+
+        .yes-btn:active {
+            transform: scale(0.96);
+        }
+
+        .no-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .no-btn:active {
+            transform: scale(0.96);
+        }
+
+        .dialogue-btn {
+            background: linear-gradient(45deg, #ffa726, #ff9800);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 167, 38, 0.4);
+            font-style: italic;
+        }
+
+        .dialogue-btn:active {
+            transform: scale(0.96);
+        }
+
+        .emoji {
+            font-size: 3em;
+            margin: 15px 0;
+            animation: float 3s ease-in-out infinite;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        /* Floating hearts animation */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: heartFloat 8s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 768px) {
+            .container {
+                padding: 35px 30px;
+                max-width: 450px;
+            }
+            
+            h1 {
+                font-size: 2.1em;
+            }
+            
+            p {
+                font-size: 1.2em;
+            }
+            
+            .btn-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                flex: 1;
+                min-width: 150px;
+            }
+            
+            .gif-container img {
+                height: 220px;
+            }
+        }
+
+        /* Desktop Hover Effects */
+        @media (min-width: 1024px) {
+            .btn:hover {
+                transform: translateY(-5px);
+            }
+            
+            .yes-btn:hover {
+                box-shadow: 0 10px 30px rgba(0, 176, 155, 0.6);
+            }
+            
+            .no-btn:hover {
+                box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6);
+            }
+            
+            .dialogue-btn:hover {
+                box-shadow: 0 10px 30px rgba(255, 167, 38, 0.6);
+            }
+        }
+
+        /* Small Mobile Optimization */
+        @media (max-width: 360px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 1.7em;
+            }
+            
+            p {
+                font-size: 1.05em;
+            }
+            
+            .btn {
+                padding: 14px 20px;
+                font-size: 1.05em;
+            }
+            
+            .gif-container img {
+                height: 170px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Page 1: Main Invitation -->
+    <div class="page active" id="page1">
+        <div class="container">
+            <div class="emoji">🎬✨</div>
+            <h1>Hello! 🙏</h1>
+            <p>Main apne doston ke saath movie dekhne ja raha tha, toh socha aapse bhi pooch loon...</p>
+            <p>Kya aap chalenge? 🎭</p>
+            
+            <div class="special-message">
+                "pta h na bol dogi phir bhi aage dekho! 😒"
+            </div>
+
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/RLVHPJJv7jY1q/giphy.gif" alt="Cute puppy invitation">
+            </div>
+
+            <div class="btn-container">
+                <button class="btn yes-btn" onclick="showPage('page2')">Haan, Bilkul Chalungi! 🌟</button>
+                <button class="btn no-btn" onclick="showPage('page3')">Shayad Nahi 😅</button>
+                <button class="btn dialogue-btn" onclick="showPage('page4')">"Main nahi jaati kahin!" 🎭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Yes Response -->
+    <div class="page" id="page2">
+        <div class="container">
+            <div class="emoji">🎉🥳</div>
+            <h1>Wah! Bahut Khushi Hui! </h1>
+            
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/3o72FfM5HJydzafgUE/giphy.gif" alt="Happy dancing animals">
+            </div>
+
+            <div class="special-message">
+                "Pehli baar ha bola h kisi cheez ke liye! 💫"
+            </div>
+
+            <p>Main details bataunga!   Stay tuned! 📱</p>
+            
+            <button class="btn yes-btn" onclick="showPage('page5')">Aage Badhein! 🚀</button>
+        </div>
+    </div>
+
+    <!-- Page 3: No Response -->
+    <div class="page" id="page3">
+        <div class="container">
+            <div class="emoji">😊🌈</div>
+            <h1>Koi Baat Nahi! </h1>
+            
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/l4JyOCNEfXvVYEqB2/giphy.gif" alt="Cute sad cat">
+            </div>
+
+            <div class="special-message">
+                "Aapki comfort important hai! 😊"
+            </div>
+
+            <p>Photo bhej doonga dekh lena! 😂🙏</p>
+            
+            <button class="btn yes-btn" onclick="showPage('page1')">Wapas Jao ↩️</button>
+        </div>
+    </div>
+
+    <!-- Page 4: Dialogue Response -->
+    <div class="page" id="page4">
+        <div class="container">
+            <div class="emoji">😅🎭</div>
+            <h1>Haha! Classic Line! </h1>
+            
+            <div class="special-message">
+                "Main nahi jaati kahin!"
+            </div>
+
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/3o7aD2SUqYxAE3vQr6/giphy.gif" alt="Stubborn animal">
+            </div>
+
+            <p>Par movie entertainment hai na! Aap soch lijiye... 🤔</p>
+            
+            <div class="btn-container">
+                <button class="btn yes-btn" onclick="showPage('page2')">Theek Hai, Chalte Hain! 😊</button>
+                <button class="btn dialogue-btn" onclick="moveButton()">Nahi, Main nhi jaati kahin! 😤 🎭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 5: Final Confirmation -->
+    <div class="page" id="page5">
+        <div class="container">
+            <div class="emoji">✅🎊</div>
+            <h1>Plan Confirmed! </h1>
+            
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Excited jumping animals">
+            </div>
+
+            <div class="special-message">
+                "See you soon! 🎬"
+            </div>
+
+            <p>Bhut Bhut Aabhaar! 🌟</p>
+            
+            <button class="btn yes-btn" onclick="showPage('page6')">Final Surprise! 🎁</button>
+        </div>
+    </div>
+
+    <!-- Page 6: Thank You -->
+    <div class="page" id="page6">
+        <div class="container">
+            <div class="emoji">🙏💖</div>
+            <h1>Aapka Bahut Shukriya! </h1>
+            
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/3o7TKsQ8gqVlqYNQru/giphy.gif" alt="Happy animal celebration">
+            </div>
+
+            <div class="special-message">
+                "Aapki haansi aur company dono special hain! ✨"
+            </div>
+
+            <p>Movie ke liye excited hoon! Aapka wait karoonga! 🎬</p>
+            
+            <button class="btn yes-btn" onclick="showPage('page1')">Naya Plan Banayein 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const hearts = ['😂', '😏', '🫡', '😒', '😃'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Moving button effect for dialogue
+        function moveButton() {
+            const buttons = document.querySelectorAll('.dialogue-btn');
+            buttons.forEach(btn => {
+                const x = Math.random() * (window.innerWidth - 200);
+                const y = Math.random() * (window.innerHeight - 100);
+                btn.style.position = 'fixed';
+                btn.style.left = x + 'px';
+                btn.style.top = y + 'px';
+                btn.style.zIndex = '1000';
+                
+                // Change text for fun
+                const texts = [
+                    "Pakka Nahi Jaungi!",
+                    "Main nhi jati kahin!",
+                    "Main Toh Nahi Jaati!",
+                    "Meri Classic Line!",
+                    "Nahi Jaana Kahin!"
+                ];
+                btn.textContent = texts[Math.floor(Math.random() * texts.length)];
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingHearts();
+            document.addEventListener('touchstart', function() {}, {passive: true});
+        });
+    </script>
+</body>
+</html>
